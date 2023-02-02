@@ -1,20 +1,82 @@
+import React, {useState, useEffect } from 'react';
 import './App.css';
-import axios from 'axios';
+import Navbar from './components/Navbar';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Navigate
+} from "react-router-dom";
+import Home from './pages/home/Home';
+import Profile from './pages/profile/Profile';
+import Signup from './pages/signup/Signup';
+import Login from './pages/login/Login';
+import Search from './pages/search/Search';
+import BookInfo from './pages/search/BookInfo';
+import Post from './pages/post/Post';
+import Collections from './pages/collections/Collections';
+import { useNavigate } from "react-router-dom";
+import MyPost from './pages/mypost/MyPost';
 
-const backend_url = process.env.BACKEND_URL;
-function App() {
-  function submit(){
-    console.log(process.env);
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}test`, {name : "shravan"})
-    .then((e) => console.log(e))
-    .catch((err) => console.log(err));
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element:<Protected >
+    <Home />
+    </Protected>
+  },
+  {
+    path: "/profile",
+    element:<Protected ><Profile /></Protected>,
+  },
+  {
+    path: "/signup",
+    element:<Signup />,
+  },
+  {
+    path: "/login",
+    element:<Login />,
+  },
+  {
+    path: "/search",
+    element:<Protected><Search /></Protected>
+  },
+  {
+    path: "/post",
+    element:<Protected><Post /></Protected>
+  },
+  {
+    path: "/bookinfo/:id",
+      element:<Protected><BookInfo /></Protected>
+  },
+  {
+    path: "/profile/:username",
+      element:<Protected><Profile /></Protected>,
+  },
+  {
+    path: "/collections",
+      element:<Protected><Collections /></Protected>,
+  },
+  {
+    path: "/myposts",
+      element:<Protected><MyPost /></Protected>,
+  },
+]);
+function Protected({  children }) {
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("username");
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
   }
-  return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline" onClick={submit}>
-      Hello world!
-    </h1>
+  return children;
+};
+function App() {
+ 
 
+  return (
+    <div>
+    <Navbar />
+    <RouterProvider router={router} />
     </div>
   );
 }
