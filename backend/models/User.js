@@ -27,6 +27,7 @@ const userSchema = new Schema({
     followers : Array,
     followings: Array,
     wishlist: Array,
+    intrested: Array,
 });
 
 const User = mongoose.model('user', userSchema);

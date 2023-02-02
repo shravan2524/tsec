@@ -80,6 +80,27 @@ app.post("/flatid", (req, res) => {
     .catch((err) => console.log(err))
 })
 
+
+app.post("/intrested", (req, res) => {
+  let items = req.body;
+  const { id, username } = req.body;
+  console.log(username, id);
+  const query = { email: username };
+  User.findOne(query)
+    .then((data) => {
+      const tempintrested = data.intrested;
+      tempintrested.push(id);
+      console.log(tempintrested);
+      User.updateOne(query, { intrested: tempintrested })
+        .then((e) => {
+          res.send(tempintrested);
+        })
+        .catch((err) => console.log(err));
+    })
+    .catch(err => console.log(err));
+})
+
+
 app.listen(PORT, () => {
   console.log(`running at ${PORT}`);
 })
