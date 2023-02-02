@@ -8,18 +8,25 @@ export default function Signup() {
  const navigate = useNavigate();
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = (formData) => {
+      console.log(formData);
+      if(formData.password!=formData.confirm_password){
+        toast.error('Passwords are not matching');
+      }
+      else{
         console.log(formData);
         axios.post("http://localhost:8000/signup", {data:formData})
         .then((data) => {
             console.log(data);
-             toast('Login Successfully');
+             toast.success('Login Successfully');
             navigate("/");
         })
         .catch((err) => console.log(err));
+      }
     }
 
   return (
     <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+      <Toaster /> 
   <div class="relative py-3 sm:max-w-xl sm:mx-auto">
     <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
       <div class="max-w-md mx-auto">
@@ -39,12 +46,20 @@ export default function Signup() {
               <input type="text" {...register("name")} required class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Full Name" />
             </div>
             <div class="flex flex-col">
-              <label class="leading-loose">Username </label> 
-              <input type="text" {...register("username")} required class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Username" />
+              <label class="leading-loose">Email </label> 
+              <input type="text" {...register("email")} required class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Email" />
             </div>
             <div class="flex flex-col">
               <label class="leading-loose">Password</label>
               <input type="password" {...register("password")} required class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Password" />
+            </div>
+            <div class="flex flex-col">
+              <label class="leading-loose">Confirm Password</label>
+              <input type="password" {...register("confirm_password")} required class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Confirm Password" />
+            </div>
+            <div class="flex flex-col">
+              <label class="leading-loose">Address</label>
+              <input type="text" {...register("address")} required class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Address" />
             </div>
           </div>
           <div class="pt-4 flex items-center space-x-4">

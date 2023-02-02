@@ -8,15 +8,13 @@ export default function Card(props) {
     }
 
     return (
-        <div  class="my-4 items-center md:flex bg-white border rounded-lg shadow-md md:flex-row ">
-        <a onClick={submit} className='w-full md:flex  cursor-pointer'>
-            <img class="object-cover w-full rounded-t-lg h-96 md:h-32 md:w-[6rem] md:rounded-none md:rounded-l-lg" src={props.image} alt="" />
+        <div  class="my-4 items-center bg-white border rounded-lg shadow-md  ">
+        <a onClick={submit} className='w-full cursor-pointer'>
+            <img class="object-cover w-full h-[30vh] rounded-t-lg h-96  md:rounded-none " src={props.cover_img} alt="" />
             <div class="flex flex-col justify-between p-4 leading-normal">
-                <p class="mb-2 text-xl font-bold tracking-tight text-gray-900 bold ">{props.bookName}</p>
-                <div className='flex w-[10rem] justify-between'>
-                <p>{props.likes} likes</p>
-                <div className='border-[1px] border-grey'></div>
-                <p>{props.comments.length} comments</p>
+                <p class="mb-2 text-xl font-medium tracking-tight text-gray-900 bold ">{props.title}</p>
+                <div className='flex justify-between'>
+                <p>{props.address}</p>
                 </div>
 
             </div>

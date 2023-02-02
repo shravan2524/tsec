@@ -102,61 +102,65 @@ const Comment = ({ comment, id, comments, fetchComments, username }) => {
 export default function BookInfo() {
     const username = localStorage.getItem("username");
     const items = useParams();
-    const [bookInfo, setbookInfo] = useState([]);
-    const [like, setLike] = useState(false);
-    const [comments, setcomments] = useState([]);
-    function fetchComments() {
-        axios.post("http://localhost:8000/getcommentsofbook", { id: bookInfo._id })
-            .then((data) => {
-                setcomments(data.data);
-            })
-            .catch((err) => console.log(err));
-    }
+    const [flatInfo, setflatInfo] = useState([]);
+    // const [like, setLike] = useState(false);
+    // const [comments, setcomments] = useState([]);
+    // function fetchComments() {
+    //     axios.post("http://localhost:8000/getcommentsofbook", { id: bookInfo._id })
+    //         .then((data) => {
+    //             setcomments(data.data);
+    //         })
+    //         .catch((err) => console.log(err));
+    // }
     function fetchBooks() {
-        axios.post("http://localhost:8000/bookid", { data: items.id })
+        axios.post("http://localhost:8000/flatid", { data: items.id })
             .then((data) => {
-                setbookInfo(data.data);
-                setcomments(data.data.comments);
+                setflatInfo(data.data);
+                console.log(flatInfo);
+                // setcomments(data.data.comments);
             })
             .catch((err) => console.log(err));
     }
-    function addtocollections() {
-        axios.post("http://localhost:8000/addtocollection", { id: bookInfo._id, username })
-            .then((data) => {
-                toast.success('Added to you collection');
-                console.log(data);
-            })
-            .catch((err) => console.log(err));
-    }
+    // function addtocollections() {
+    //     axios.post("http://localhost:8000/addtocollection", { id: bookInfo._id, username })
+    //         .then((data) => {
+    //             toast.success('Added to you collection');
+    //             console.log(data);
+    //         })
+    //         .catch((err) => console.log(err));
+    // }
     useEffect(() => {
-        fetchComments();
+        // fetchComments();
         fetchBooks();
     }, []);
 
     return (
-        <div className='mt-[10vh] mx-auto md:w-6/12'>
+        <div className='mt-[10vh] mx-auto md:w-10/12'>
             <Toaster />
             <div class=" items-center bg-white border rounded-lg shadow-md md:flex-row p-4 md:max px-6">
-                <img class="object-cover w-full rounded-lg  md:h-auto md:w-48 mx-auto" src={bookInfo.image} alt="" />
+                <div className='grid grid-cols-2 gap-x-4'>
+                <img class="object-cover w-full rounded-lg  md:h-auto  mx-auto" src={flatInfo.cover_img} alt="" />
+                <div className='grid grid-cols-2'>
+                <img class="object-cover w-full rounded-lg  md:h-auto  mx-auto" src={flatInfo.cover_img} alt="" />
+                <img class="object-cover w-full rounded-lg  md:h-auto  mx-auto" src={flatInfo.cover_img} alt="" />
+                <img class="object-cover w-full rounded-lg  md:h-auto  mx-auto" src={flatInfo.cover_img} alt="" />
+                <img class="object-cover w-full rounded-lg  md:h-auto  mx-auto" src={flatInfo.cover_img} alt="" />
+                </div>
+                </div>
                 <div class="flex flex-col justify-between p-4 leading-normal">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{bookInfo.bookName}</h5>
-                    <p class="mb-3 font-normal text-gray-700 ">{bookInfo.description}</p>
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{flatInfo.bookName}</h5>
+                    <p class="mb-3 font-normal text-gray-700 ">{flatInfo.description}</p>
                     <div className='flex justify-around h-[3rem]'>
-                        <a href={bookInfo.link} class="my-auto float-rigth flex font-xs bg-transparent hover:bg-[#1b72e8] text-[#1b72e8]  hover:text-white p-2 border border-[#1b72e8] hover:border-transparent rounded">
-                            buy here
-                            <svg aria-hidden="true" className="w-4 h-4 ml-2 -mr-1 my-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </a>
-                        <div className='border-[1px] border-grey'></div>
-                        <div className='flex'>
+                        {/* <div className='flex'>
                             <Like username={username} setLike={setLike} fetchBooks={fetchBooks} like={like} {...bookInfo} />
                         </div>
                         <div className='border-[1px] border-grey w-33%'></div>
                         <div className='flex' class="float-rigth flex font-xs bg-transparent hover:bg-[#1b72e8] text-[#1b72e8] f hover:text-white p-2 border border-[#1b72e8] hover:border-transparent rounded">
                             <FaGrinStars className='my-auto' color='#1b72e8' size={20} />
                             <button className='text-[12px]' onClick={addtocollections}>Add to collections</button>
-                        </div>
+                        </div> */}
                     </div>
-                    <Comment username={username} fetchComments={fetchComments} id={bookInfo._id} comments={comments} />
+                    {/* <Comment username={username} fetchComments={fetchComments} id={bookInfo._id} comments={comments} /> */}
 
                 </div>
             </div>

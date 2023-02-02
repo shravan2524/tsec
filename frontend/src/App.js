@@ -64,12 +64,13 @@ const router = createBrowserRouter([
 ]);
 function Protected({  children }) {
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem("username");
+  const isLoggedIn = localStorage.getItem("email");
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
   return children;
 };
+
 function App() {
  
 
