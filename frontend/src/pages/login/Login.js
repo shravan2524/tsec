@@ -12,9 +12,16 @@ export default function Login() {
         axios.post("http://localhost:8000/login", {data:formData})
         .then((data) => {
             console.log(data.data);
-            toast('Login Successfully');
-            localStorage.setItem("username", data.data[0].username);
+            if(data.data.mes==="username / password is wrong"){
+              toast.error("username / password is wrong");
+              navigate("/login");
+            }
+            else{
+              console.log("hello");
+            toast.success('Login Successfully');
+            localStorage.setItem("email", data.data.mes[0].email);
             navigate("/");
+            }
         })
         .catch((err) => console.log(err));
     }
@@ -37,8 +44,8 @@ export default function Login() {
           <form onSubmit={handleSubmit(onSubmit)}>
           <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
             <div class="flex flex-col">
-              <label class="leading-loose">Username </label> 
-              <input type="text" {...register("username")} required class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Username" />
+              <label class="leading-loose">Email </label> 
+              <input type="text" {...register("email")} required class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Username" />
             </div>
             <div class="flex flex-col">
               <label class="leading-loose">Password</label>

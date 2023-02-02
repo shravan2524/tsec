@@ -1,52 +1,50 @@
 import axios from 'axios'
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from './Card';
 
 export default function Search() {
-    const [books, setbooks] = useState([]);
-    const [Hbooks, setHbooks] = useState([])
-    const [search, setsearch] = useState("");
+  const [flats, setFlats] = useState([]);
+  const [hflats, setHflats] = useState([]);
+  const [search, setsearch] = useState("");
 
-    function changesearch(e){
-      console.log(e);
-      setsearch(e);
-      const result = [];
-      for (var i = 0; i < Hbooks.length; i++) {
-        if(Hbooks[i].bookName.toLowerCase()
-                .includes(search.toLowerCase())) {
-            result.push(books[i]);
-        }
+  function changesearch(e) {
+    console.log(e);
+    setsearch(e);
+    const result = [];
+    for (var i = 0; i < hflats.length; i++) {
+      if (hflats[i].address.toLowerCase()
+        .includes(search.toLowerCase())) {
+        result.push(flats[i]);
+      }
     }
-      console.log(result);
-      setbooks(result);
+    console.log(result);
+    setFlats(result);
 
-    }
-    useEffect(() => {
-      axios.get("http://localhost:8000/books")
+  }
+  useEffect(() => {
+    axios.get("http://localhost:8000/flats")
       .then((data) => {
         console.log(data.data);
-        setbooks(data.data);
-        setHbooks(data.data);
+        setFlats(data.data);
+        setHflats(data.data);
       })
-      .catch((err)=>console.log(err))
-    }, [])
-    
+      .catch((err) => console.log(err))
+  }, [])
+
   return (
-    <div className='mt-[10vh] mx-auto md:w-6/12 p-4 shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]'>
+    <div className='mt-[10vh] mx-auto w-[90%] p-4 '>
       <div>
-        <input placeholder='Search' class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" value={search} onChange={(e) => changesearch(e.target.value)} />
+        <input placeholder='Search' class="px-4 py-2 border focus:ring-gray-500  focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" value={search} onChange={(e) => changesearch(e.target.value)} />
       </div>
+      <div className='md:grid md:grid-cols-3 lg:grid-cols-4 justify-between gap-x-5'>
         {
-            books.length>0
-            ? books.map((data) => {
-                return <Card {...data} />
+          flats.length > 0
+            ? flats.map((data) => {
+              return <Card {...data} />
             })
-            :null
+            : null
         }
-        <div>
-          <input type="text" placeholder="New Text Search Box" /> 
-          
-        </div>
-        </div>
+      </div>
+    </div>
   )
 }

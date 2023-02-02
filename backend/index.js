@@ -6,6 +6,8 @@ app.use(express.json());
 app.use(cors());
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 8000;
+const User = require("./models/User");
+const Flats = require("./models/Flats");
 const { query } = require('express');
 
 // Connection URI
@@ -27,9 +29,10 @@ app.post("/signup", (req, res) => {
   console.log(items, "af");
   const newUser = new User({
     name: items.name,
-    username: items.username,
+    email: items.email,
     password: items.password,
   });
+  console.log(newUser);
   newUser.save()
     .then((newUser) => {
       console.log("Record inserted");
@@ -38,17 +41,25 @@ app.post("/signup", (req, res) => {
     .catch((err) => console.log(err));
 })
 
+app.get("/flats", (req, res) => {
+  Flats.find()
+    .then((data) => {
+      // console.log(data);
+      res.send(data);
+    })
+    .catch((err) => console.log(err))
+})
+
 app.post("/login", (req, res) => {
   let { items } = req.body.data;
-  console.log(req.body, items);
-  let query = { username: req.body.data.username, password: req.body.data.password };
+  let query = { email: req.body.data.email, password: req.body.data.password };
   console.log(query);
   User.find(query)
     .then((users) => {
       console.log(users, "shravan");
-      if (users) {
+      if (users.length>0) {
         console.log("rignt matched");
-        res.send(users);
+        res.send({mes : users});
       }
       else {
         let mes = "username / password is wrong";
@@ -59,12 +70,15 @@ app.post("/login", (req, res) => {
     .catch(err => console.log(err));
 })
 
-
-app.post("/test", (req, res) => {
-    console.log(req.body);
-  })
-  
-
+app.post("/flatid", (req, res) => {
+  let items = req.body;
+  Flats.findById(items.data)
+    .then((data) => {
+      console.log(data);
+      res.send(data);
+    })
+    .catch((err) => console.log(err))
+})
 
 app.listen(PORT, () => {
   console.log(`running at ${PORT}`);
