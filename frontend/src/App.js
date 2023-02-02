@@ -17,6 +17,7 @@ import Post from './pages/post/Post';
 import Collections from './pages/collections/Collections';
 import { useNavigate } from "react-router-dom";
 import MyPost from './pages/mypost/MyPost';
+import ProfileForm from './pages/profileconfirm/ProfileForm';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
     path: "/myposts",
       element:<Protected><MyPost /></Protected>,
   },
+  {
+    path:"/profileform",
+    element:<Protected><ProfileForm /></Protected>
+  }
 ]);
 function Protected({  children }) {
   const navigate = useNavigate();
@@ -77,6 +82,7 @@ function App() {
     <div>
     <Navbar />
     <RouterProvider router={router} />
+    {/* <ProfileForm /> */}
     </div>
   );
 }
